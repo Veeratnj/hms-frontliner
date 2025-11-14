@@ -1,73 +1,211 @@
-# Welcome to your Lovable project
+# MediCare HMS - Hospital Management System
 
-## Project info
+A comprehensive Hospital Management System built with React, TypeScript, Tailwind CSS, and role-based access control (RBAC).
 
-**URL**: https://lovable.dev/projects/fb319826-1e4d-4fd0-8b1d-73d18366a1b8
+## 🚀 Features
 
-## How can I edit this code?
+### Multi-Role Support
+- **Admin** - Full system access, user management, department management
+- **Doctor** - Patient consultations, prescriptions, lab reports
+- **Nurse** - Patient care, vitals monitoring
+- **Receptionist** - Patient registration, appointment scheduling
+- **Pharmacy Staff** - Medicine inventory, dispensing
+- **Lab Technician** - Test orders, result uploads
+- **Billing Staff** - Invoicing, payment management
 
-There are several ways of editing your application.
+### Core Modules
+- ✅ JWT-based authentication with token refresh
+- ✅ Role-based access control (RBAC)
+- ✅ Protected routes with permission checks
+- ✅ Responsive sidebar navigation
+- ✅ Role-specific dashboards
+- ✅ Patient management system
+- ✅ Doctor appointment management
+- ✅ Pharmacy inventory tracking
+- ✅ Lab test order system
 
-**Use Lovable**
+## 🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fb319826-1e4d-4fd0-8b1d-73d18366a1b8) and start prompting.
+- **React 18** with TypeScript
+- **Vite** for blazing fast builds
+- **Tailwind CSS** for styling
+- **Shadcn UI** for component library
+- **Zustand** for state management
+- **Axios** for API calls with interceptors
+- **React Router v6** for routing
+- **Lucide React** for icons
 
-Changes made via Lovable will be committed automatically to this repo.
+## 📦 Installation
 
-**Use your preferred IDE**
+```bash
+# Install dependencies
+npm install
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
 ```
 
-**Edit a file directly in GitHub**
+## 🔐 Demo Accounts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Use these credentials to test different roles:
 
-**Use GitHub Codespaces**
+| Email | Role | Access Level |
+|-------|------|--------------|
+| admin@hospital.com | Admin | Full System Access |
+| doctor@hospital.com | Doctor | Patient Care, Appointments |
+| nurse@hospital.com | Nurse | Patient Monitoring |
+| pharmacy@hospital.com | Pharmacy | Medicine Management |
+| lab@hospital.com | Lab | Test Orders & Results |
+| billing@hospital.com | Billing | Invoicing & Payments |
+| receptionist@hospital.com | Receptionist | Registration & Scheduling |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Password: Any password (mock authentication)
 
-## What technologies are used for this project?
+## 📁 Project Structure
 
-This project is built with:
+```
+src/
+├── components/
+│   ├── layout/
+│   │   ├── AppLayout.tsx      # Main layout with sidebar
+│   │   └── AppSidebar.tsx     # Role-based navigation
+│   ├── dashboard/
+│   │   └── StatCard.tsx       # Dashboard statistics
+│   ├── ui/                    # Shadcn UI components
+│   └── ProtectedRoute.tsx     # Route protection
+├── pages/
+│   ├── Login.tsx              # Authentication
+│   ├── Dashboard.tsx          # Role-specific dashboards
+│   ├── Patients.tsx           # Patient management
+│   ├── doctor/
+│   │   └── Appointments.tsx   # Doctor appointments
+│   ├── pharmacy/
+│   │   └── Inventory.tsx      # Medicine inventory
+│   └── lab/
+│       └── TestOrders.tsx     # Lab test orders
+├── services/
+│   └── api.ts                 # Axios instance with interceptors
+├── store/
+│   └── authStore.ts           # Zustand auth store
+└── App.tsx                    # Main app with routing
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🔧 API Integration
 
-## How can I deploy this project?
+The app uses Axios with automatic token management:
 
-Simply open [Lovable](https://lovable.dev/projects/fb319826-1e4d-4fd0-8b1d-73d18366a1b8) and click on Share -> Publish.
+```typescript
+// Example API call
+import api from '@/services/api';
 
-## Can I connect a custom domain to my Lovable project?
+const fetchPatients = async () => {
+  const response = await api.get('/patients');
+  return response.data;
+};
+```
 
-Yes, you can!
+### API Endpoints (Mock Examples)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```typescript
+// Authentication
+POST /auth/login
+POST /auth/refresh
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+// Patients
+GET /patients
+POST /patients
+GET /patients/:id
+
+// Doctor
+GET /doctor/appointments/today
+POST /doctor/prescriptions
+
+// Lab
+GET /lab/orders
+POST /lab/reports
+
+// Pharmacy
+GET /pharmacy/medicines
+POST /pharmacy/dispense
+```
+
+## 🎨 Design System
+
+Healthcare-themed design with professional colors:
+
+- **Primary**: Medical Blue (#0EA5E9)
+- **Secondary**: Teal (#4FD1C5)
+- **Success**: Green for positive status
+- **Warning**: Amber for alerts
+- **Destructive**: Red for errors
+
+All colors use HSL format and are themeable through CSS variables in `src/index.css`.
+
+## 🔒 Security Features
+
+- JWT token authentication
+- Automatic token refresh on 401
+- Role-based route protection
+- Secure token storage
+- Request/response interceptors
+
+## 📱 Responsive Design
+
+Fully responsive design that works on:
+- Desktop (1920px+)
+- Laptop (1280px+)
+- Tablet (768px+)
+- Mobile (320px+)
+
+## 🚦 Role-Based Navigation
+
+Each role sees only relevant navigation items:
+
+- Admin: All system features
+- Doctor: Appointments, patients, prescriptions
+- Pharmacy: Inventory, dispensing, stock
+- Lab: Test orders, results, reports
+- Others: Role-specific features
+
+## 📊 Dashboard Features
+
+Dynamic dashboards showing:
+- Key metrics and statistics
+- Recent activity feed
+- Role-specific information
+- Quick action buttons
+- Status indicators
+
+## 🔄 State Management
+
+Using Zustand for lightweight state management:
+
+```typescript
+// Auth state
+const { user, isAuthenticated, login, logout } = useAuthStore();
+```
+
+## 🎯 Next Steps
+
+To connect to a real backend:
+
+1. Update `VITE_API_URL` in `.env`
+2. Replace mock data in pages with real API calls
+3. Implement actual authentication endpoints
+4. Add error handling and validation
+5. Implement data caching with React Query
+
+## 📝 License
+
+MIT License - Feel free to use for your projects!
+
+## 🤝 Contributing
+
+Contributions welcome! Please follow the existing code structure and design patterns.
+
+---
+
+Built with ❤️ using React + TypeScript + Tailwind CSS
