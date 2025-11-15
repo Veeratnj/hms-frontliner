@@ -8,6 +8,7 @@ import { useAuthStore } from '@/store/authStore';
 import api from '@/services/api';
 import { Activity } from 'lucide-react';
 import { toast } from 'sonner';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -61,6 +62,9 @@ export default function Login() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted p-4">
+      <div className="absolute right-4 top-4">
+        <ThemeToggle />
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4 text-center">
           <div className="flex justify-center">

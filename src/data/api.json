@@ -1,0 +1,490 @@
+{
+  "endpoints": {
+    "auth": {
+      "login": {
+        "method": "POST",
+        "url": "/auth/login",
+        "description": "User login",
+        "requestBody": {
+          "email": "admin@hospital.com",
+          "password": "Admin@123"
+        },
+        "response": {
+          "status": "success",
+          "token": "jwt-token-value-here",
+          "refreshToken": "refresh-token-value",
+          "user": {
+            "id": 1,
+            "name": "Admin User",
+            "email": "admin@hospital.com",
+            "role": "admin"
+          }
+        }
+      },
+      "refresh": {
+        "method": "POST",
+        "url": "/auth/refresh",
+        "description": "Refresh access token",
+        "requestBody": {
+          "refreshToken": "refresh-token-value"
+        },
+        "response": {
+          "status": "success",
+          "token": "new-jwt-token-value"
+        }
+      },
+      "logout": {
+        "method": "POST",
+        "url": "/auth/logout",
+        "description": "User logout",
+        "response": {
+          "status": "success",
+          "message": "Logged out successfully"
+        }
+      }
+    },
+    "patients": {
+      "list": {
+        "method": "GET",
+        "url": "/patients",
+        "description": "Get all patients",
+        "queryParams": {
+          "search": "string",
+          "page": 1,
+          "limit": 10
+        },
+        "response": {
+          "patients": [
+            {
+              "id": 101,
+              "name": "John Doe",
+              "age": 45,
+              "gender": "Male",
+              "phone": "9876543210",
+              "email": "john.doe@email.com",
+              "address": "123 Main St, City",
+              "status": "Active",
+              "lastVisit": "2024-01-15"
+            },
+            {
+              "id": 102,
+              "name": "Priya Sharma",
+              "age": 32,
+              "gender": "Female",
+              "phone": "9123456780",
+              "email": "priya.sharma@email.com",
+              "address": "456 Park Ave, City",
+              "status": "Active",
+              "lastVisit": "2024-01-14"
+            }
+          ],
+          "total": 150,
+          "page": 1,
+          "totalPages": 15
+        }
+      },
+      "create": {
+        "method": "POST",
+        "url": "/patients",
+        "description": "Register new patient",
+        "requestBody": {
+          "name": "John Doe",
+          "age": 45,
+          "gender": "Male",
+          "phone": "9876543210",
+          "email": "john.doe@email.com",
+          "address": "123 Main St, City",
+          "bloodGroup": "O+",
+          "emergencyContact": "9876543211"
+        },
+        "response": {
+          "status": "success",
+          "message": "Patient registered successfully",
+          "patient": {
+            "id": 103,
+            "name": "John Doe",
+            "status": "Active"
+          }
+        }
+      },
+      "getById": {
+        "method": "GET",
+        "url": "/patients/:id",
+        "description": "Get patient details",
+        "response": {
+          "patient": {
+            "id": 101,
+            "name": "John Doe",
+            "age": 45,
+            "gender": "Male",
+            "phone": "9876543210",
+            "email": "john.doe@email.com",
+            "address": "123 Main St, City",
+            "bloodGroup": "O+",
+            "status": "Active",
+            "medicalHistory": [
+              {
+                "date": "2024-01-15",
+                "diagnosis": "Hypertension",
+                "doctor": "Dr. Smith",
+                "prescription": "Amlodipine 5mg"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "appointments": {
+      "list": {
+        "method": "GET",
+        "url": "/appointments",
+        "description": "Get all appointments",
+        "response": {
+          "appointments": [
+            {
+              "id": 1,
+              "patientId": 101,
+              "patientName": "John Doe",
+              "doctorName": "Dr. Smith",
+              "date": "2024-01-20",
+              "time": "10:30 AM",
+              "reason": "Regular Checkup",
+              "status": "Scheduled"
+            }
+          ]
+        }
+      },
+      "doctorToday": {
+        "method": "GET",
+        "url": "/doctor/appointments/today",
+        "description": "Get today's appointments for doctor",
+        "response": {
+          "appointments": [
+            {
+              "id": 1,
+              "patientName": "John Doe",
+              "patientId": 101,
+              "time": "10:30 AM",
+              "reason": "Fever & Cough",
+              "status": "Scheduled"
+            },
+            {
+              "id": 2,
+              "patientName": "Maria Thomas",
+              "patientId": 102,
+              "time": "11:00 AM",
+              "reason": "Diabetes Followup",
+              "status": "Scheduled"
+            }
+          ]
+        }
+      },
+      "create": {
+        "method": "POST",
+        "url": "/appointments",
+        "description": "Book new appointment",
+        "requestBody": {
+          "patientId": 101,
+          "doctorId": 5,
+          "date": "2024-01-20",
+          "time": "10:30 AM",
+          "reason": "Regular Checkup"
+        },
+        "response": {
+          "status": "success",
+          "message": "Appointment booked successfully",
+          "appointment": {
+            "id": 50,
+            "status": "Scheduled"
+          }
+        }
+      }
+    },
+    "lab": {
+      "reports": {
+        "method": "GET",
+        "url": "/lab/reports",
+        "description": "Get all lab reports",
+        "response": {
+          "reports": [
+            {
+              "id": 1,
+              "patientName": "John Doe",
+              "testName": "Blood CBC",
+              "status": "Completed",
+              "date": "2024-01-15",
+              "result": "Normal"
+            }
+          ]
+        }
+      },
+      "uploadReport": {
+        "method": "POST",
+        "url": "/lab/reports",
+        "description": "Upload lab report",
+        "requestBody": {
+          "patientId": 101,
+          "testName": "Blood CBC",
+          "result": "Normal",
+          "fileUrl": "https://files.com/report.pdf",
+          "remarks": "All parameters within normal range"
+        },
+        "response": {
+          "status": "success",
+          "message": "Report uploaded successfully",
+          "report": {
+            "id": 25,
+            "status": "Completed"
+          }
+        }
+      },
+      "testOrders": {
+        "method": "GET",
+        "url": "/lab/test-orders",
+        "description": "Get all test orders",
+        "response": {
+          "orders": [
+            {
+              "id": 1,
+              "patientName": "John Doe",
+              "testName": "Blood CBC",
+              "orderedBy": "Dr. Smith",
+              "date": "2024-01-15",
+              "status": "Pending"
+            }
+          ]
+        }
+      }
+    },
+    "pharmacy": {
+      "medicines": {
+        "method": "GET",
+        "url": "/pharmacy/medicines",
+        "description": "Get medicine inventory",
+        "response": {
+          "medicines": [
+            {
+              "id": 10,
+              "name": "Paracetamol 500mg",
+              "stock": 120,
+              "unit": "tablet",
+              "price": 2.5,
+              "expiryDate": "2025-12-31",
+              "manufacturer": "PharmaCorp"
+            },
+            {
+              "id": 11,
+              "name": "Amoxicillin 250mg",
+              "stock": 60,
+              "unit": "capsule",
+              "price": 15.0,
+              "expiryDate": "2025-08-30",
+              "manufacturer": "MediCare Ltd"
+            }
+          ]
+        }
+      },
+      "issueMedicine": {
+        "method": "POST",
+        "url": "/pharmacy/issue",
+        "description": "Issue medicine to patient",
+        "requestBody": {
+          "patientId": 101,
+          "medicines": [
+            {
+              "medicineId": 10,
+              "quantity": 10,
+              "dosage": "1-0-1"
+            }
+          ],
+          "prescriptionId": 50
+        },
+        "response": {
+          "status": "success",
+          "message": "Medicine issued successfully",
+          "billAmount": 25.0
+        }
+      },
+      "addMedicine": {
+        "method": "POST",
+        "url": "/pharmacy/medicines",
+        "description": "Add new medicine to inventory",
+        "requestBody": {
+          "name": "Paracetamol 500mg",
+          "stock": 100,
+          "unit": "tablet",
+          "price": 2.5,
+          "expiryDate": "2025-12-31",
+          "manufacturer": "PharmaCorp"
+        },
+        "response": {
+          "status": "success",
+          "message": "Medicine added successfully"
+        }
+      }
+    },
+    "billing": {
+      "invoices": {
+        "method": "GET",
+        "url": "/billing/invoices",
+        "description": "Get all invoices",
+        "response": {
+          "invoices": [
+            {
+              "id": "INV-001",
+              "patientName": "John Doe",
+              "date": "2024-01-15",
+              "amount": 5000,
+              "status": "Paid",
+              "type": "OP"
+            },
+            {
+              "id": "INV-002",
+              "patientName": "Priya Sharma",
+              "date": "2024-01-14",
+              "amount": 15000,
+              "status": "Pending",
+              "type": "IP"
+            }
+          ]
+        }
+      },
+      "createInvoice": {
+        "method": "POST",
+        "url": "/billing/invoices",
+        "description": "Create new invoice",
+        "requestBody": {
+          "patientId": 101,
+          "type": "OP",
+          "items": [
+            {
+              "description": "Consultation Fee",
+              "amount": 500
+            },
+            {
+              "description": "Lab Tests",
+              "amount": 1500
+            }
+          ],
+          "totalAmount": 2000
+        },
+        "response": {
+          "status": "success",
+          "message": "Invoice created successfully",
+          "invoice": {
+            "id": "INV-150",
+            "amount": 2000
+          }
+        }
+      },
+      "updatePayment": {
+        "method": "PUT",
+        "url": "/billing/invoices/:id/payment",
+        "description": "Update payment status",
+        "requestBody": {
+          "status": "Paid",
+          "paymentMethod": "Cash",
+          "paidAmount": 2000
+        },
+        "response": {
+          "status": "success",
+          "message": "Payment updated successfully"
+        }
+      }
+    },
+    "admin": {
+      "users": {
+        "method": "GET",
+        "url": "/admin/users",
+        "description": "Get all users",
+        "response": {
+          "users": [
+            {
+              "id": 1,
+              "name": "Dr. Sarah Smith",
+              "email": "sarah.smith@hospital.com",
+              "role": "doctor",
+              "department": "Cardiology",
+              "status": "Active",
+              "joinDate": "2023-01-15"
+            },
+            {
+              "id": 2,
+              "name": "Nurse Johnson",
+              "email": "johnson@hospital.com",
+              "role": "nurse",
+              "department": "Emergency",
+              "status": "Active",
+              "joinDate": "2023-03-20"
+            }
+          ]
+        }
+      },
+      "createUser": {
+        "method": "POST",
+        "url": "/admin/users",
+        "description": "Create new user",
+        "requestBody": {
+          "name": "Dr. John Doe",
+          "email": "john.doe@hospital.com",
+          "role": "doctor",
+          "department": "Cardiology",
+          "password": "SecurePass123"
+        },
+        "response": {
+          "status": "success",
+          "message": "User created successfully",
+          "user": {
+            "id": 10,
+            "status": "Active"
+          }
+        }
+      },
+      "updateUser": {
+        "method": "PUT",
+        "url": "/admin/users/:id",
+        "description": "Update user details",
+        "requestBody": {
+          "name": "Dr. John Doe",
+          "role": "doctor",
+          "department": "Neurology",
+          "status": "Active"
+        },
+        "response": {
+          "status": "success",
+          "message": "User updated successfully"
+        }
+      },
+      "deleteUser": {
+        "method": "DELETE",
+        "url": "/admin/users/:id",
+        "description": "Delete user",
+        "response": {
+          "status": "success",
+          "message": "User deleted successfully"
+        }
+      },
+      "departments": {
+        "method": "GET",
+        "url": "/admin/departments",
+        "description": "Get all departments",
+        "response": {
+          "departments": [
+            {
+              "id": 1,
+              "name": "Cardiology",
+              "head": "Dr. Sarah Smith",
+              "staffCount": 15
+            },
+            {
+              "id": 2,
+              "name": "Neurology",
+              "head": "Dr. Michael Chen",
+              "staffCount": 12
+            }
+          ]
+        }
+      }
+    }
+  }
+}
