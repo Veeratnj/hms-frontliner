@@ -15,10 +15,21 @@ import NotFound from "./pages/NotFound";
 
 // Role-specific pages
 import DoctorAppointments from "./pages/doctor/Appointments";
+import DoctorPrescriptions from "./pages/doctor/Prescriptions";
+import DoctorLabReports from "./pages/doctor/LabReports";
+import NurseVitals from "./pages/nurse/Vitals";
+import PharmacyDispense from "./pages/pharmacy/Dispense";
+import PharmacyStock from "./pages/pharmacy/Stock";
 import PharmacyInventory from "./pages/pharmacy/Inventory";
 import LabTestOrders from "./pages/lab/TestOrders";
 import Billing from "./pages/billing/Billing";
 import AdminUsers from "./pages/admin/Users";
+import AdminDepartments from "./pages/admin/Departments";
+import RegisterPatient from "./pages/RegisterPatient";
+import PatientDetails from "./pages/PatientDetails";
+import Appointments from "./pages/Appointments";
+import Doctors from "./pages/Doctors";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -27,11 +38,11 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route 
-        path="/" 
+      <Route
+        path="/"
         element={
           isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />
-        } 
+        }
       />
       <Route path="/login" element={<Login />} />
       <Route path="/unauthorized" element={<Unauthorized />} />
@@ -53,6 +64,46 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/patients/register"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'receptionist']}>
+            <RegisterPatient />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/patients/:id"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'doctor', 'nurse', 'receptionist']}>
+            <PatientDetails />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/appointments"
+        element={
+          <ProtectedRoute allowedRoles={['admin', 'doctor', 'nurse', 'receptionist']}>
+            <Appointments />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/doctors"
+        element={
+          <ProtectedRoute>
+            <Doctors />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Doctor Routes */}
       <Route
@@ -63,6 +114,32 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/doctor/prescriptions"
+        element={
+          <ProtectedRoute allowedRoles={['doctor']}>
+            <DoctorPrescriptions />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/doctor/lab-reports"
+        element={
+          <ProtectedRoute allowedRoles={['doctor']}>
+            <DoctorLabReports />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Nurse Routes */}
+      <Route
+        path="/nurse/vitals"
+        element={
+          <ProtectedRoute allowedRoles={['nurse', 'admin']}>
+            <NurseVitals />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Pharmacy Routes */}
       <Route
@@ -70,6 +147,22 @@ function AppRoutes() {
         element={
           <ProtectedRoute allowedRoles={['pharmacy', 'admin']}>
             <PharmacyInventory />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pharmacy/dispense"
+        element={
+          <ProtectedRoute allowedRoles={['pharmacy', 'admin']}>
+            <PharmacyDispense />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pharmacy/stock"
+        element={
+          <ProtectedRoute allowedRoles={['pharmacy', 'admin']}>
+            <PharmacyStock />
           </ProtectedRoute>
         }
       />
@@ -100,6 +193,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminUsers />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/departments"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminDepartments />
           </ProtectedRoute>
         }
       />
